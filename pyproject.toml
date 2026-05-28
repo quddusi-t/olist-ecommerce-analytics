@@ -1,0 +1,19 @@
+[project]
+name = "olist-ecommerce-analytics"
+version = "0.1.0"
+description = "Brazilian e-commerce analytics platform — dbt + Snowflake"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas==2.2.3",
+    "snowflake-connector-python[pandas]>=4.0.0,<5.0.0",
+    "dbt-snowflake==1.11.1",
+    "python-dotenv==1.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "black==24.10.0",
+    "ruff==0.8.6",
+    "pytest==8.3.4",
+    "pre-commit==4.0.1",
+]

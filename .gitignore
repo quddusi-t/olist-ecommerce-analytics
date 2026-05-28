@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.eggs/
+
+# Environment
+.env
+*.env
+
+# dbt
+src/etl/dbt_project/target/
+src/etl/dbt_project/logs/
+src/etl/dbt_project/.user.yml
+dbt_packages/
+
+# Data — raw CSVs never committed
+data/
+
+# Credentials
+*.json
+!pyproject.toml
+
+# Editors
+.vscode/
+.idea/
+*.swp
