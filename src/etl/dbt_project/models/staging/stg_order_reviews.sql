@@ -20,13 +20,14 @@ cleaned AS (
       AND REVIEW_SCORE IS NOT NULL
 ),
 
--- Source has 789 duplicate review_ids — keep the latest answered entry
+-- Source has duplicate review_ids AND multiple reviews per order_id.
+-- Keep one row per order: latest by review_answered_at, then review_created_at.
 deduped AS (
     SELECT *
     FROM cleaned
     QUALIFY ROW_NUMBER() OVER (
-        PARTITION BY REVIEW_ID
-        ORDER BY review_answered_at DESC NULLS LAST
+        PARTITION BY ORDER_ID
+        ORDER BY review_answered_at DESC NULLS LAST, review_created_at DESC NULLS LAST
     ) = 1
 )
 

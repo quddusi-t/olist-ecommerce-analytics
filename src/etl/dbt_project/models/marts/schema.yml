@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: Order-level fact table joining orders, items, payments, reviews, and customers. Grain is one row per order.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: customer_unique_id
+        tests: [not_null]
+      - name: order_date
+        tests: [not_null]
+      - name: order_status
+        tests: [not_null]
+
+  - name: fct_delivery_performance
+    description: Monthly delivery metrics by seller and customer state.
+    columns:
+      - name: seller_id
+        tests: [not_null]
+      - name: year_month
+        tests: [not_null]
+      - name: orders_delivered
+        tests: [not_null]
+
+  - name: fct_seller_performance
+    description: Lifetime seller performance — revenue, delivery reliability, review scores. Grain is one row per seller.
+    columns:
+      - name: seller_id
+        tests: [not_null, unique]
+      - name: total_revenue
+        tests: [not_null]
+
+  - name: fct_rfm_segments
+    description: RFM segmentation for all customers who placed at least one delivered order. Scores 1–5, segments from Champions to Lost.
+    columns:
+      - name: customer_unique_id
+        tests: [not_null, unique]
+      - name: segment
+        tests: [not_null]
+      - name: rfm_score
+        tests: [not_null]
+
+  - name: fct_customer_ltv
+    description: Customer lifetime value with order history, projected annual LTV, and customer tier.
+    columns:
+      - name: customer_unique_id
+        tests: [not_null, unique]
+      - name: total_revenue
+        tests: [not_null]
+      - name: customer_tier
+        tests: [not_null]
