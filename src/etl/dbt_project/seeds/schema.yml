@@ -1,0 +1,17 @@
+version: 2
+
+seeds:
+  - name: seller_location_history
+    description: >
+      Synthetic seller relocation history for SCD Type 2 demonstration.
+      10 rows covering 5 sellers with 1–3 versions each.
+      In production this would be sourced from a CDC log or audit table.
+    columns:
+      - name: seller_id
+        tests: [not_null]
+      - name: seller_city
+        tests: [not_null]
+      - name: seller_state
+        tests: [not_null]
+      - name: effective_date
+        tests: [not_null]
