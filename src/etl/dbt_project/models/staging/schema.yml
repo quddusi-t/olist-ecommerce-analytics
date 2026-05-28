@@ -36,12 +36,12 @@ models:
         tests: [not_null]
 
   - name: stg_order_reviews
-    description: Customer reviews with sentiment flags.
+    description: Customer reviews with sentiment flags. Deduplicated to one row per order_id (source has duplicate review_ids across orders).
     columns:
       - name: review_id
-        tests: [not_null, unique]
-      - name: order_id
         tests: [not_null]
+      - name: order_id
+        tests: [not_null, unique]
       - name: review_score
         tests:
           - not_null
