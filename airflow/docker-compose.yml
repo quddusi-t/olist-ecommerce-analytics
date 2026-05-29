@@ -39,18 +39,30 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Creates log subdirectories that Airflow's processor handler requires at import time.
+  # Without this, every Airflow service fails with:
+  #   ValueError: Unable to configure handler 'processor'
+  airflow-mkdir:
+    image: busybox
+    volumes:
+      - ./logs:/opt/airflow/logs
+    command: sh -c "mkdir -p /opt/airflow/logs/dag_processor_manager /opt/airflow/logs/scheduler && chown -R 50000:0 /opt/airflow/logs"
+    restart: "no"
+
   airflow-init:
     <<: *airflow-common
-    command: >
+    command: >-
       bash -c "
         pip install dbt-snowflake==1.11.1 &&
         airflow db migrate &&
-        airflow users create
-          --username admin --password admin
-          --firstname Admin --lastname User
-          --role Admin --email admin@example.com
+        airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
       "
     restart: "no"
+    depends_on:
+      airflow-mkdir:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
 
   airflow-webserver:
     <<: *airflow-common
