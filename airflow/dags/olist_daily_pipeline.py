@@ -33,6 +33,7 @@ log = logging.getLogger(__name__)
 
 DBT_BIN = "/home/airflow/.local/bin/dbt"
 DBT_DIR = "/opt/airflow/dbt_project"
+DBT_FLAGS = "--log-path /tmp/dbt-logs"
 SLACK_CONN_ID = "slack_webhook"
 
 
@@ -94,18 +95,18 @@ with DAG(
 
     dbt_seed = BashOperator(
         task_id="dbt_seed",
-        bash_command=f"cd {DBT_DIR} && {DBT_BIN} seed",
+        bash_command=f"cd {DBT_DIR} && {DBT_BIN} {DBT_FLAGS} seed",
     )
 
     dbt_run = BashOperator(
         task_id="dbt_run",
-        bash_command=f"cd {DBT_DIR} && {DBT_BIN} run",
+        bash_command=f"cd {DBT_DIR} && {DBT_BIN} {DBT_FLAGS} run",
     )
 
     # Data quality gate — DAG stops here if any test fails
     dbt_test = BashOperator(
         task_id="dbt_test",
-        bash_command=f"cd {DBT_DIR} && {DBT_BIN} test",
+        bash_command=f"cd {DBT_DIR} && {DBT_BIN} {DBT_FLAGS} test",
     )
 
     notify_success = PythonOperator(
