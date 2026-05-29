@@ -23,6 +23,10 @@ data/
 *.json
 !pyproject.toml
 
+# Airflow
+airflow/logs/
+airflow/plugins/
+
 # Editors
 .vscode/
 .idea/
