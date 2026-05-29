@@ -13,6 +13,8 @@ x-airflow-common: &airflow-common
     SNOWFLAKE_PASSWORD: ${SNOWFLAKE_PASSWORD}
     # dbt project path inside the container
     DBT_PROJECT_DIR: /opt/airflow/dbt_project
+    # redirect dbt artifact writes out of the host-mounted project dir
+    DBT_TARGET_PATH: /tmp/dbt-target
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
