@@ -33,7 +33,7 @@ log = logging.getLogger(__name__)
 
 DBT_BIN = "/home/airflow/.local/bin/dbt"
 DBT_DIR = "/opt/airflow/dbt_project"
-DBT_FLAGS = "--log-path /tmp/dbt-logs"
+DBT_FLAGS = "--log-path /tmp/dbt-logs --target-path /tmp/dbt-target"
 SLACK_CONN_ID = "slack_webhook"
 
 
